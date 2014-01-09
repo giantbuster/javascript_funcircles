@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+    Jefferson Lam
+    1-9-14
+    JavaScript Fun Circles Assignment
+
+    Assignment:
+    	Create a simple javascript that creates 5000 instances of Circle. Each circle should have a random x, y coordinate, a random radius between 1-20, and a random rgb color. Once these 500 circles are created, display them in the html canvas. Figure out how long it took for the canvas to render these circles and also display the time it took to display these circles.
+
+		When you create these instances, do it without using prototype (or adding methods to the prototype). Find out how long this operation took. Then do it again but now with prototype. Figure out how long this operation took now.
+-->
+<html>
+<head>
+	<title>Fun Circles</title>
+</head>
+<body>
+<script>
+	var width = 1200;
+	var height = 500;
+	var circleCount = 500;
+	var maxRadius = 20;
+
+	var canvas = '<canvas id="myCanvas" width="' + width + '" height="' + height + '" style="border:1px solid #000000;"></canvas>';
+	document.write(canvas);
+
+	function Circle(){
+		this.xCoord = Math.floor((Math.random() * width) + 1);
+		this.yCoord = Math.floor((Math.random() * height) + 1);
+		this.radius = Math.floor((Math.random() * maxRadius) + 1);
+		this.clr = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' 
+			              + (Math.floor(Math.random() * 256)) + ',' 
+			              + (Math.floor(Math.random() * 256)) + ')';
+	}
+
+	begin = new Date();
+	beginTime = begin.getTime();
+
+	circlesArray = [];
+	for (i = 0; i<circleCount; i++){
+		circle = new Circle();
+		circlesArray.push(circle);
+	}
+
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+	for (i = 0; i<circlesArray.length; i++){
+		ctx.fillStyle = circlesArray[i].clr;
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(circlesArray[i].xCoord,
+				circlesArray[i].yCoord,
+				circlesArray[i].radius,
+				0,
+				2*Math.PI
+				);
+	}
+
+	end = new Date();
+	endTime = end.getTime();
+
+	timeElapsed = endTime - beginTime;
+	console.log('Time elapsed: ' + timeElapsed + 'ms');
+</script>
+</body>
+</html>
